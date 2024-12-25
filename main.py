@@ -30,8 +30,7 @@ messages = [{"role": "system", "content": "You are a helpful AI assistant."}]
 def encode_image(image_path):
     """Encodes an image as base64."""
     with open(image_path, "rb") as image_file:
-        return base64.b64encode(image_file.read()).decode("utf-8")
-
+        return base64.b64encode(image_file.read()).decode("utf-8")    
 
 @app.get("/", response_class=HTMLResponse)
 async def home(request: Request):
@@ -83,8 +82,7 @@ async def chatbot_response(
         response = client.chat.completions.create(
             model="gemini-1.5-flash",
             messages=messages,
-            temperature=0.7,
-            max_tokens=1000,
+            temperature=1,
             stream=True
         )
 
@@ -101,3 +99,19 @@ async def chatbot_response(
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Chatbot error: {str(e)}")
+
+@app.post("/upload/")
+async def upload_file(file: UploadFile):
+    """Handle file uploads."""
+    try:
+        # Ensure the upload folder exists
+        os.makedirs("uploads", exist_ok=True)
+
+        # Save the uploaded file
+        file_path = os.path.join("uploads", file.filename)
+        with open(file_path, "wb") as buffer:
+            buffer.write(await file.read())
+
+        return {"filename": file.filename, "status": "uploaded"}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"File upload failed: {str(e)}")

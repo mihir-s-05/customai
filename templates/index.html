@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Framework Tool</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <h1>AI Framework Tool</h1>
+    <form id="uploadForm" action="/upload/" method="post" enctype="multipart/form-data">
+        <h2>Upload a File</h2>
+        <input type="file" name="file" required>
+        <button type="submit">Upload</button>
+    </form>
+
+    <form id="trainForm" action="/train/" method="post">
+        <h2>Train a Model</h2>
+        <label for="data">Data (e.g., [[1, 2], [3, 4]]):</label><br>
+        <input type="text" name="data" required><br>
+        <label for="labels">Labels (e.g., [1, 2]):</label><br>
+        <input type="text" name="labels" required><br>
+        <button type="submit">Train</button>
+    </form>
+
+    <h2>Chatbot</h2>
+    <a href="/chatbot/">Go to Chatbot</a>
+</body>
+</html>
